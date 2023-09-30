@@ -1,9 +1,10 @@
-﻿using ProvaPub.Models;
+﻿using ProvaPub.Interfaces;
+using ProvaPub.Models;
 using ProvaPub.Repository;
 
 namespace ProvaPub.Services
 {
-	public class ProductService
+	public class ProductService : IProductService
 	{
 		TestDbContext _ctx;
 
@@ -12,9 +13,10 @@ namespace ProvaPub.Services
 			_ctx = ctx;
 		}
 
-		public ProductList  ListProducts(int page)
+		public GenericList<Product> ListProducts(int page)
 		{
-			return new ProductList() {  HasNext=false, TotalCount =10, Products = _ctx.Products.ToList() };
+			GenericList<Product> products = new GenericList<Product>();
+			return products.ListItems<Product>(page, _ctx.Products.ToList());
 		}
 
 	}

@@ -1,4 +1,5 @@
-﻿using ProvaPub.Models;
+﻿using ProvaPub.Interfaces;
+using ProvaPub.Models;
 
 namespace ProvaPub.Services
 {
@@ -6,18 +7,9 @@ namespace ProvaPub.Services
 	{
 		public async Task<Order> PayOrder(string paymentMethod, decimal paymentValue, int customerId)
 		{
-			if (paymentMethod == "pix")
-			{
-				//Faz pagamento...
-			}
-			else if (paymentMethod == "creditcard")
-			{
-				//Faz pagamento...
-			}
-			else if (paymentMethod == "paypal")
-			{
-				//Faz pagamento...
-			}
+			IPaymentService _paymentService = PaymentMethodService.SelectPayment(paymentMethod);
+
+			_paymentService.Payment(paymentValue, customerId);
 
 			return await Task.FromResult( new Order()
 			{
